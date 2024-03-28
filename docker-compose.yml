@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   nginx:
-    image: nginx:mainline-alpine
+    image: nginx:alpine
     volumes:
       - ./web-config/nginx:/etc/nginx/
       - certs:/etc/ssl/certs
