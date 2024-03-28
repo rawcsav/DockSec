@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  nginx:
+    image: nginx:mainline-alpine
+    volumes:
+      - ./web-config/nginx:/etc/nginx/
+      - certs:/etc/ssl/certs
+      - /home/rawcsav/AIUtilsFlask/app:/newutil/app
+      - /home/rawcsav/SpotifyFlask/app:/rawcon/app
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: unless-stopped
+    networks:
+      - appnet
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run ${CLOUDFLARED_TUNNEL_ID}
+    volumes:
+      - ./web-config/cloudflared:/etc/cloudflared
+    depends_on:
+      - nginx
+    restart: unless-stopped
+    networks:
+      - appnet
+
+volumes:
+  certs:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/rawcsav/DockSec/web-config/certs/
+      o: bind
+
+networks:
+  appnet:
+    driver: "bridge"
