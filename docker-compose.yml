@@ -2,6 +2,7 @@ version: '3.8'
 services:
   nginx:
     image: nginx:alpine
+    restart: unless-stopped
     volumes:
       - ./web-config/nginx:/etc/nginx/
       - certs:/etc/ssl/certs
@@ -10,7 +11,6 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    restart: unless-stopped
     networks:
       - appnet
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
