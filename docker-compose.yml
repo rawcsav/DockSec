@@ -26,6 +26,38 @@ services:
     networks:
       - appnet
 
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp"
+      - "8080:80/tcp"
+    environment:
+      TZ: 'America/New_York'
+      WEBPASSWORD: ${WEBPASSWORD}
+      SERVERIP: ${SERVERIP}
+    volumes:
+      - './etc-pihole:/etc/pihole'
+      - './etc-dnsmasq.d:/etc/dnsmasq.d'
+    cap_add:
+      - NET_ADMIN
+    dns:
+      - 127.0.0.1
+      - 1.1.1.1
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/admin/"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+    networks:
+      appnet:
+        ipv4_address: 172.20.0.2
+
 volumes:
   certs:
     driver: local
@@ -37,3 +69,8 @@ volumes:
 networks:
   appnet:
     external: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1
