@@ -33,7 +33,7 @@ services:
       - "53:53/tcp"
       - "53:53/udp"
       - "67:67/udp"
-      - "8080:80/tcp"
+      - "80:8080/tcp"
     environment:
       TZ: 'America/New_York'
       WEBPASSWORD: ${WEBPASSWORD}
@@ -55,8 +55,8 @@ services:
       timeout: 10s
       retries: 3
     networks:
-      appnet:
-        ipv4_address: 172.20.0.2
+      - appnet
+
 
 volumes:
   certs:
@@ -69,8 +69,3 @@ volumes:
 networks:
   appnet:
     external: true
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.20.0.0/24
-          gateway: 172.20.0.1
