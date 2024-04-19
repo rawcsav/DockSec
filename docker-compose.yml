@@ -31,8 +31,7 @@ services:
     sysctls:
       - net.ipv4.ip_unprivileged_port_start=53
     networks:
-      appnet:
-        ipv4_address: 192.168.192.6
+      - appnet
 
   pihole:
     container_name: pihole
@@ -45,7 +44,8 @@ services:
     environment:
       TZ: 'America/New_York'
       WEBPASSWORD: ${WEBPASSWORD}
-      DNS1: '192.168.192.6#53'
+      SERVERIP: ${SERVERIP}
+      DNS1: 192.168.192.6#53
     volumes:
       - './etc-pihole:/etc/pihole'
       - './etc-dnsmasq.d:/etc/dnsmasq.d'
@@ -60,8 +60,7 @@ services:
       timeout: 10s
       retries: 3
     networks:
-      appnet:
-        ipv4_address: 192.168.192.16
+      - appnet
 
 
 volumes:
