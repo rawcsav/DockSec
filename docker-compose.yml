@@ -17,19 +17,12 @@ services:
 
   cloudflared:
     image: cloudflare/cloudflared:latest
-    command: tunnel --no-autoupdate run ${CLOUDFLARED_TUNNEL_ID} & proxy-dns
-    environment:
-      - "TUNNEL_DNS_UPSTREAM=https://1.1.1.1/dns-query,https://1.0.0.1/dns-query,https://9.9.9.9/dns-query,https://149.112.112.9/dns-query"
-      - "TUNNEL_METRICS=0.0.0.0:49312"
-      - "TUNNEL_DNS_ADDRESS=0.0.0.0"
-      - "TUNNEL_DNS_PORT=53"
+    command: tunnel --no-autoupdate run ${CLOUDFLARED_TUNNEL_ID}
     volumes:
       - ./web-config/cloudflared:/etc/cloudflared
     depends_on:
       - nginx
     restart: unless-stopped
-    sysctls:
-      - net.ipv4.ip_unprivileged_port_start=53
     networks:
       - appnet
 
@@ -40,17 +33,19 @@ services:
       - "53:53/tcp"
       - "53:53/udp"
       - "67:67/udp"
-      - "8080:80/tcp"
+      - "80:8080/tcp"
     environment:
       TZ: 'America/New_York'
       WEBPASSWORD: ${WEBPASSWORD}
       SERVERIP: ${SERVERIP}
-      DNS1: 192.168.192.6#53
     volumes:
       - './etc-pihole:/etc/pihole'
       - './etc-dnsmasq.d:/etc/dnsmasq.d'
     cap_add:
       - NET_ADMIN
+    dns:
+      - 127.0.0.1
+      - 1.1.1.1
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
