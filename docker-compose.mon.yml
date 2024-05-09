@@ -23,6 +23,9 @@ services:
     networks:
       - appnet
 
+volumes:
+  grafana_data:
+  prometheus_data:
 
 networks:
   appnet:
