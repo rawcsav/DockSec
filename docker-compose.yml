@@ -23,6 +23,25 @@ services:
     networks:
       - appnet
 
+  grafana:
+    image: grafana/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GF_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_PASS}
+    volumes:
+      - grafana_data:/var/lib/grafana
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - prometheus_data:/prometheus
+    command:
+      - --web.enable-admin-api
+      - --web.enable-lifecycle
+      - --config.file=/etc/prometheus/prometheus.yml
+    restart: unless-stopped
+
 volumes:
   certs:
     driver: local
@@ -30,6 +49,8 @@ volumes:
       type: none
       device: /home/rawcsav/DockSec/web-config/certs/
       o: bind
+  grafana_data:
+  prometheus_data:
 
 networks:
   appnet:
