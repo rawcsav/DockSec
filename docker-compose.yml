@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./web-config/nginx:/etc/nginx/
+      - ./web-config/nginx/auth:/etc/nginx/auth
       - certs:/etc/ssl/certs
       - /home/rawcsav/AIUtilsFlask/app:/newutil/app
       - /home/rawcsav/SpotifyFlask/app:/rawcon/app
