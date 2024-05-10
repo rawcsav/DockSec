@@ -1,12 +1,23 @@
-version: "3.3"
+version: "3.8"
 services:
-  homepage:
-    image: ghcr.io/gethomepage/homepage:latest
-    container_name: homepage
+  dashy:
+    # To build from source, replace 'image: lissy93/dashy' with 'build: .'
+    # build: .
+    image: lissy93/dashy
+    container_name: Dashy
+    # Pass in your config file below, by specifying the path on your host machine
     volumes:
-      - ./config:/app/config # Make sure your local config directory exists
-      - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations
-      - ./images:/app/public/images
+      - /root/my-config.yml:/app/user-data/conf.yml
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'node', '/app/services/healthcheck']
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
     networks:
       - internal
       - appnet
@@ -21,8 +32,6 @@ services:
 
   grafana:
     image: grafana/grafana
-    environment:
-      - GF_SERVER_HTTP_PORT=2345
     volumes:
       - grafana-data:/var/lib/grafana
     networks:

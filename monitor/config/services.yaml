@@ -1,5 +1,0 @@
-- Group A:
-  - prometheus:
-    widget:
-      type: prometheus
-      url: http://prometheus:9090
