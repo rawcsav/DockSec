@@ -9,7 +9,7 @@ services:
       - ./images:/app/public/images
     networks:
         - appnet
-        -
+
   prometheus:
     image: prom/prometheus
     volumes:
