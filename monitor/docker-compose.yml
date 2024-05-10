@@ -8,14 +8,17 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations
       - ./images:/app/public/images
     networks:
-        - appnet
+      - internal
+      - appnet
 
   prometheus:
     image: prom/prometheus
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
+      - internal
       - appnet
+      -
 networks:
     internal:
       driver: "bridge"
