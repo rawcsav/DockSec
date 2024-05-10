@@ -18,7 +18,7 @@ services:
     networks:
       - internal
       - appnet
-      -
+
 networks:
     internal:
       driver: "bridge"
