@@ -36,6 +36,7 @@ services:
       - grafana-data:/var/lib/grafana
     networks:
       - internal
+      - appnet
     restart: unless-stopped
 
 volumes:
