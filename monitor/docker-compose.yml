@@ -1,19 +1,11 @@
-version: "3.8"
+version: "3.3"
 services:
-  dashy:
-    image: lissy93/dashy
-    container_name: Dashy
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
     volumes:
-      - ../web-config/monitor/my-config.yml:/app/user-data/conf.yml
-    environment:
-      - NODE_ENV=production
-    restart: unless-stopped
-    healthcheck:
-      test: ['CMD', 'node', '/app/services/healthcheck']
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+      - ../web-config/monitor:/app/config # Make sure your local config directory exists
+      - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations
     networks:
         - appnet
 
