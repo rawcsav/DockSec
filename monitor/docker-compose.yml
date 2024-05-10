@@ -19,6 +19,18 @@ services:
       - internal
       - appnet
 
+  grafana:
+    image: grafana/grafana
+    environment:
+      - GF_SERVER_HTTP_PORT=2345
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - internal
+    restart: unless-stopped
+
+volumes:
+  grafana-data:
 networks:
     internal:
       driver: "bridge"
