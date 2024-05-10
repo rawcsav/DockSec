@@ -176,7 +176,7 @@ stylelint.config.js
 /cloudflared
 .git
 .gitignore
-Dockerfile
+monitor/docker-compose.yml
 README.md
 /web-config/cloudflared/*
 /web-config/cloudflared
