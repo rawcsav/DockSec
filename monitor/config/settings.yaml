@@ -3,6 +3,3 @@ favicon: images/favicon.ico
 fiveColumns: true
 
 
-widget:
-  type: prometheus
-  url: http://prometheus:9090
