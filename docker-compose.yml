@@ -9,9 +9,6 @@ services:
       - certs:/etc/ssl/certs
       - /home/rawcsav/AIUtilsFlask/app:/newutil/app
       - /home/rawcsav/SpotifyFlask/app:/rawcon/app
-    ports:
-      - "80:80"
-      - "443:443"
     networks:
       - appnet
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
