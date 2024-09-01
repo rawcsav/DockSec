@@ -7,7 +7,7 @@ services:
       - ./web-config/nginx/auth:/etc/nginx/auth
       - certs:/etc/ssl/certs
       - /home/rawcsav/AIUtilsFlask/app:/newutil/app
-      - /home/rawcsav/SpotifyFlask/app:/rawcon/app
+      - /home/rawcsav/RawcOn/app:/rawcon/app
     networks:
       - appnet
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
