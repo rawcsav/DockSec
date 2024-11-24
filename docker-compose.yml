@@ -13,6 +13,10 @@ services:
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 
   cloudflared:
+    dns:
+      - 100.94.221.96
+    dns_search:
+      - opah-banana.ts.net
     image: cloudflare/cloudflared:latest
     command: tunnel --no-autoupdate run ${CLOUDFLARED_TUNNEL_ID}
     volumes:
