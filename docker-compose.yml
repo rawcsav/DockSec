@@ -14,9 +14,6 @@ services:
 
   cloudflared:
     image: cloudflare/cloudflared:latest
-    dns:
-      - 100.94.221.96 # Google's DNS as backup
-      - 1.1.1.1  # Cloudflare's DNS
     command: tunnel --no-autoupdate run ${CLOUDFLARED_TUNNEL_ID}
     volumes:
       - ./web-config/cloudflared:/etc/cloudflared
