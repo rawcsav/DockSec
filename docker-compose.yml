@@ -20,7 +20,6 @@ services:
     depends_on:
       - nginx
     restart: unless-stopped
-    network_mode: "host"
     networks:
       - appnet
 
